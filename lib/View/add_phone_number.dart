@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:whatsapp_clone/View/core/divider_widget.dart';
 import 'package:whatsapp_clone/View/core/drop_down_list.dart';
 import 'package:whatsapp_clone/View/core/top_bar_widget.dart';
-import 'package:whatsapp_clone/View/widgets/TextField.dart';
+import 'package:whatsapp_clone/View/core/TextField.dart';
 import 'package:whatsapp_clone/utils/text_theme.dart';
 import '../utils/coloors.dart';
+import 'ChatList.dart';
 
 class AddPhoneNumber extends StatefulWidget {
   const AddPhoneNumber({super.key});
@@ -23,20 +24,26 @@ class _AddPhoneNumberState extends State<AddPhoneNumber> {
       children: [
         TopBarWidget(
           widget: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(
-                width: 45,
-              ),
-              Text(
-                "Phone number",
-                style: textTheme.hLBlack,
-              ),
-              TextButton(
-                onPressed: () {},
+              Spacer(),
+              Expanded(
+                flex: 4,
                 child: Text(
-                  "Done",
-                  style: textTheme.hLGrey,
+                  "Phone number",
+                  style: textTheme.hLBlack,
+              textAlign: TextAlign.center,
+                ),
+              ),
+              Expanded(
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ChatList()));
+                  },
+                  child: Text(
+                    "Done",
+                    style: textTheme.hLGrey,
+                  ),
                 ),
               ),
             ],

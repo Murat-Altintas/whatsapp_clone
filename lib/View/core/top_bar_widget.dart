@@ -12,9 +12,6 @@ class TopBarWidget extends StatelessWidget {
         width: Size.infinite.width,
         height: 132,
         color: Coloors.lightWhite,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 50),
-          child: widget,
-        ));
+        child: widget);
   }
 }
