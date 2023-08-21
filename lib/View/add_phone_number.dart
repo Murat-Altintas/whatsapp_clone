@@ -20,67 +20,69 @@ class _AddPhoneNumberState extends State<AddPhoneNumber> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TopBarWidget(
-          widget: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Spacer(),
-              Expanded(
-                flex: 4,
-                child: Text(
-                  "Phone number",
-                  style: textTheme.hLBlack,
-              textAlign: TextAlign.center,
-                ),
-              ),
-              Expanded(
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ChatList()));
-                  },
+    return Material(
+      child: Column(
+        children: [
+          TopBarWidget(
+            widget: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Spacer(),
+                Expanded(
+                  flex: 4,
                   child: Text(
-                    "Done",
-                    style: textTheme.hLGrey,
+                    "Phone number",
+                    style: textTheme.hLBlack,
+                textAlign: TextAlign.center,
                   ),
                 ),
+                Expanded(
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ChatList()));
+                    },
+                    child: Text(
+                      "Done",
+                      style: textTheme.hLGrey,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Align(
+            heightFactor: 2,
+            child: SizedBox(
+                width: 280,
+                child: Text(
+                  "Please confirm your country code and enter your phone number",
+                  style: textTheme.subBlack,
+                  textAlign: TextAlign.center,
+                )),
+          ),
+
+          iDivider(height: 20, indent: 0),
+          //TODO: https://restcountries.com/v3.1/independent?
+          SizedBox(width: Size.infinite.width, height: 50, child: DropDownList(dropDownValue: "Turkey")),
+          Row(
+            children: [
+              ITextField(
+                flex: 1,
+                labelText: "    +1",
+                textStyle: textTheme.hLBlack.copyWith(
+                  fontWeight: FontWeight.w300,
+                  fontSize: 27,
+                ),
+              ),
+              ITextField(
+                flex: 3,
+                labelText: "phone number",
+                textStyle: textTheme.hLGrey.copyWith(fontWeight: FontWeight.w300, fontSize: 27),
               ),
             ],
           ),
-        ),
-        Align(
-          heightFactor: 2,
-          child: SizedBox(
-              width: 280,
-              child: Text(
-                "Please confirm your country code and enter your phone number",
-                style: textTheme.subBlack,
-                textAlign: TextAlign.center,
-              )),
-        ),
-
-        iDivider(height: 20),
-        //TODO: https://restcountries.com/v3.1/independent?
-        SizedBox(width: Size.infinite.width, height: 50, child: DropDownList(dropDownValue: "Turkey")),
-        Row(
-          children: [
-            ITextField(
-              flex: 1,
-              labelText: "    +1",
-              textStyle: textTheme.hLBlack.copyWith(
-                fontWeight: FontWeight.w300,
-                fontSize: 27,
-              ),
-            ),
-            ITextField(
-              flex: 3,
-              labelText: "phone number",
-              textStyle: textTheme.hLGrey.copyWith(fontWeight: FontWeight.w300, fontSize: 27),
-            ),
-          ],
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

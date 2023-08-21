@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:whatsapp_clone/View/ChatList.dart';
 import 'package:whatsapp_clone/View/add_phone_number.dart';
 import 'package:whatsapp_clone/utils/extensions.dart';
 
@@ -21,7 +22,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-          body: AddPhoneNumber(),
+          body: ChatList(),
         ));
   }
 }
@@ -29,7 +30,7 @@ class _MyAppState extends State<MyApp> {
 class PostBlocObserver extends BlocObserver {
   @override
   void onTransition(Bloc bloc, Transition transition) {
-    "Bloc: $bloc".log();
+    "Post Fetched: $bloc".log();
     super.onTransition(bloc, transition);
   }
 

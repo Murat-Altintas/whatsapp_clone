@@ -10,8 +10,11 @@ class TopBarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         width: Size.infinite.width,
-        height: 132,
+        height: 100,
         color: Coloors.lightWhite,
-        child: widget);
+        child: Align(
+          alignment: Alignment.bottomCenter,
+          child: widget,
+        ));
   }
 }

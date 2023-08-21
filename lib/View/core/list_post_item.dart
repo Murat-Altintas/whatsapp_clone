@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:whatsapp_clone/View/core/divider_widget.dart';
 
 import '../../Control/post.dart';
 
@@ -9,13 +10,15 @@ class ListPostItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: ListTile(
-        leading: Text("${post.id}"),
-        title: Text(post.title),
-        //subtitle: Text("post.body"),
-        trailing: Image.network(post.photos),
-      ),
+    return Column(
+      children: [
+        ListTile(
+          leading: CircleAvatar(radius: 25, backgroundImage: NetworkImage(post.photos)),
+          title: Text("${post.id}"),
+          subtitle: Text(post.title),
+        ),
+        iDivider(height: 5, indent: 80),
+      ],
     );
   }
 }

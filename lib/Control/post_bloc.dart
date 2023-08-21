@@ -74,4 +74,15 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     }
     throw PostException(error: response.body);
   }
+
+  Future<void> removeFromList(int index) async {
+    state.posts.removeAt(index);
+    final newPosts = state.posts;
+
+    emit(
+      state.copyWith(
+        posts: List.of(state.posts)..addAll(newPosts), status: PostStatus.success
+      ),
+    );
+  }
 }

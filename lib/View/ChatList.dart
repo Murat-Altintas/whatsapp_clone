@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:whatsapp_clone/View/add_phone_number.dart';
 import 'package:whatsapp_clone/utils/extensions.dart';
 import '../Control/post_bloc.dart';
 import '../utils/coloors.dart';
 import '../utils/text_theme.dart';
+import 'core/IndıcatorWidget.dart';
 import 'core/list_post_item.dart';
 import 'core/top_bar_widget.dart';
 
@@ -19,9 +22,21 @@ class _ChatListState extends State<ChatList> {
   Widget build(BuildContext context) {
     return BlocProvider<PostBloc>(
       create: (_) => PostBloc(
-        client: HttpClient(),
+        client: HttpClient(),s
       )..add(PostFetched()),
-      child: DataList(),
+      child: MaterialApp(
+        routes: {
+          '/': (context) => BlocProvider(
+              create: (context) => BlocProvider.of (context),
+          child: AddPhoneNumber(),
+
+          '/addPhoneNumber': (context) => BlocProvider(
+              create: (context) => BlocProvider.of (context),
+          child: ChatList(),
+          ),
+      ),
+        },
+      ),
     );
   }
 }
@@ -71,40 +86,93 @@ class _DataListState extends State<DataList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       body: Column(
         children: [
           TopBar(textTheme: textTheme),
           topNavigator(context),
-          Expanded(
-            child: BlocBuilder<PostBloc, PostState>(
-              builder: (context, postState) {
-                switch (postState.status) {
-                  case PostStatus.failure:
-                    return Center(
-                      child: Text("Error"),
-                    );
-                  case PostStatus.success:
-                    if (postState.posts.isEmpty) {
-                      return Center(
-                        child: Text("Not any post find"),
-                      );
-                    }
-                    return ListView.builder(
-                      itemBuilder: (context, index) {
-                        return index >= postState.posts.length ? IndicatorWidget() : ListPostItem(post: postState.posts[index]);
-                      },
-                      itemCount: postState.hasReachedMax ? postState.posts.length : postState.posts.length + 1,
-                      controller: _scrollController,
-                    );
-                  default:
-                    return Center(
-                      child: Text("Please wait..."),
-                    );
-                }
-              },
-            ),
+          MainList(scrollController: _scrollController),
+          BottomNavigationBar(
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(Icons.access_alarm),
+                label: "alarm",
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.access_alarm),
+                label: "alarm",
+              ),
+            ],
           ),
         ],
+      ),
+    );
+  }
+}
+
+class MainList extends StatelessWidget {
+  const MainList({
+    super.key,
+    required ScrollController scrollController,
+  }) : _scrollController = scrollController;
+
+  final ScrollController _scrollController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: BlocBuilder<PostBloc, PostState>(
+        builder: (context, postState) {
+          switch (postState.status) {
+            case PostStatus.failure:
+              return Center(
+                child: Text("Error"),
+              );
+            case PostStatus.success:
+              if (postState.posts.isEmpty) {
+                return Center(
+                  child: Text("Not any post find"),
+                );
+              }
+              return ListView.builder(
+                itemBuilder: (context, index) {
+                  return index >= postState.posts.length
+                      ? IndicatorWidget()
+                      : Slidable(
+                          endActionPane: ActionPane(
+                            extentRatio: 0.4,
+                            motion: StretchMotion(),
+                            children: [
+                              SlidableAction(
+                                spacing: 7,
+                                backgroundColor: Colors.grey.shade400,
+                                icon: Icons.more_horiz,
+                                label: "More",
+                                foregroundColor: Colors.white,
+                                onPressed: (BuildContext context) => (),
+                              ),
+                              SlidableAction(
+                                spacing: 7,
+                                backgroundColor: Colors.blueAccent,
+                                icon: Icons.archive,
+                                label: "Archive",
+                                onPressed: (BuildContext context) => (context.read<PostBloc>().removeFromList(index)),
+                              ),
+                            ],
+                          ),
+                          child: ListPostItem(
+                            post: postState.posts[index],
+                          ));
+                },
+                itemCount: postState.hasReachedMax ? postState.posts.length : postState.posts.length + 1,
+                controller: _scrollController,
+              );
+            default:
+              return Center(
+                child: Text("Please wait..."),
+              );
+          }
+        },
       ),
     );
   }
@@ -121,38 +189,42 @@ class TopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TopBarWidget(
-      widget: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          TextButton(
-            onPressed: () {},
-            child: Text(
-              "Edit",
-              style: textTheme.hLBlue,
+      widget: Padding(
+        padding: context.padHorizontal,
+        child: Row(
+          children: [
+            Expanded(
+              flex: 1,
+              child: TextButton(
+                onPressed: () {},
+                child: Text(
+                  "Edit",
+                  style: textTheme.hLBlue,
+                ),
+              ),
             ),
-          ),
-          Expanded(
-            flex: 0,
-            child: Text(
-              "Chats",
-              style: textTheme.hLBlack,
-              textAlign: TextAlign.center,
+            Expanded(
+              flex: 6,
+              child: Text(
+                "Chats",
+                style: textTheme.hLBlack,
+                textAlign: TextAlign.center,
+              ),
             ),
-          ),
-          Expanded(
-            flex: 0,
-            child: IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.message_rounded),
-              color: Coloors.lightBlue,
+            Expanded(
+              flex: 1,
+              child: IconButton(
+                onPressed: () {},
+                icon: Icon(Icons.message_rounded),
+                color: Coloors.lightBlue,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 }
-
 
 Padding topNavigator(BuildContext context) {
   return Padding(
@@ -171,7 +243,15 @@ Padding topNavigator(BuildContext context) {
               ),
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => BlockProvider.value(
+
+                    child: AddPhoneNumber(
+                      title: "addPhoneNumber",
+                    )),
+                ),
+                );
+              },
               child: Text(
                 "New Group",
                 //style: textTheme.hLBlue,
@@ -183,21 +263,4 @@ Padding topNavigator(BuildContext context) {
       ],
     ),
   );
-}
-
-class IndicatorWidget extends StatelessWidget {
-  const IndicatorWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: SizedBox(
-        width: 36,
-        height: 36,
-        child: CircularProgressIndicator(
-          strokeWidth: 1.5,
-        ),
-      ),
-    );
-  }
 }
