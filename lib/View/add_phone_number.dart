@@ -5,7 +5,6 @@ import 'package:whatsapp_clone/View/core/top_bar_widget.dart';
 import 'package:whatsapp_clone/View/core/TextField.dart';
 import 'package:whatsapp_clone/utils/text_theme.dart';
 import '../utils/coloors.dart';
-import 'ChatList.dart';
 
 class AddPhoneNumber extends StatefulWidget {
   const AddPhoneNumber({super.key});
@@ -39,7 +38,7 @@ class _AddPhoneNumberState extends State<AddPhoneNumber> {
                 Expanded(
                   child: TextButton(
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ChatList()));
+                      Navigator.of(context).pushNamed("/second");
                     },
                     child: Text(
                       "Done",

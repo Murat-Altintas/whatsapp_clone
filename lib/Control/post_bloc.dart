@@ -26,7 +26,6 @@ EventTransformer<T> postDroppable<T>(Duration duration) {
 
 class PostBloc extends Bloc<PostEvent, PostState> {
   final HttpClient _client;
-
   PostBloc({required HttpClient client})
       : _client = client,
         super(const PostState()) {
@@ -34,11 +33,13 @@ class PostBloc extends Bloc<PostEvent, PostState> {
   }
 
   Future<void> _onPostFetched(PostFetched event, Emitter<PostState> emit) async {
+
     if (state.hasReachedMax) return;
 
     try {
       if (state.status == PostStatus.initial) {
         final posts = await _fetchPosts();
+
         return emit(
           state.copyWith(status: PostStatus.success, posts: posts, hasReachedMax: false),
         );
@@ -80,9 +81,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     final newPosts = state.posts;
 
     emit(
-      state.copyWith(
-        posts: List.of(state.posts)..addAll(newPosts), status: PostStatus.success
-      ),
+      state.copyWith(posts: List.of(state.posts)..addAll(newPosts), status: PostStatus.success),
     );
   }
 }

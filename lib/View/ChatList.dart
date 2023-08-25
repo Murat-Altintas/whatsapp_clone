@@ -11,46 +11,15 @@ import 'core/list_post_item.dart';
 import 'core/top_bar_widget.dart';
 
 class ChatList extends StatefulWidget {
-  const ChatList({super.key});
+  const ChatList({
+    super.key,
+  });
 
   @override
   State<ChatList> createState() => _ChatListState();
 }
 
 class _ChatListState extends State<ChatList> {
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider<PostBloc>(
-      create: (_) => PostBloc(
-        client: HttpClient(),s
-      )..add(PostFetched()),
-      child: MaterialApp(
-        routes: {
-          '/': (context) => BlocProvider(
-              create: (context) => BlocProvider.of (context),
-          child: AddPhoneNumber(),
-
-          '/addPhoneNumber': (context) => BlocProvider(
-              create: (context) => BlocProvider.of (context),
-          child: ChatList(),
-          ),
-      ),
-        },
-      ),
-    );
-  }
-}
-
-class DataList extends StatefulWidget {
-  const DataList({
-    super.key,
-  });
-
-  @override
-  State<DataList> createState() => _DataListState();
-}
-
-class _DataListState extends State<DataList> {
   final textTheme = MyTextTheme.instance!;
   final colorScheme = Coloors.instance!;
   late ScrollController _scrollController;
@@ -86,40 +55,55 @@ class _DataListState extends State<DataList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: Column(
         children: [
-          TopBar(textTheme: textTheme),
+          topBarWidget(context),
           topNavigator(context),
-          MainList(scrollController: _scrollController),
-          BottomNavigationBar(
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.access_alarm),
-                label: "alarm",
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.access_alarm),
-                label: "alarm",
-              ),
-            ],
-          ),
+          mainList(context),
         ],
       ),
     );
   }
-}
 
-class MainList extends StatelessWidget {
-  const MainList({
-    super.key,
-    required ScrollController scrollController,
-  }) : _scrollController = scrollController;
+  TopBarWidget topBarWidget(BuildContext context) {
+    return TopBarWidget(
+      widget: Padding(
+        padding: context.padHorizontal,
+        child: Row(
+          children: [
+            Expanded(
+              flex: 1,
+              child: TextButton(
+                onPressed: () {},
+                child: Text(
+                  "Edit",
+                  style: textTheme.hLBlue,
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 6,
+              child: Text(
+                "Chats",
+                style: textTheme.hLBlack,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: IconButton(
+                onPressed: () {},
+                icon: Icon(Icons.message_rounded),
+                color: Coloors.lightBlue,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
-  final ScrollController _scrollController;
-
-  @override
-  Widget build(BuildContext context) {
+  Expanded mainList(BuildContext context) {
     return Expanded(
       child: BlocBuilder<PostBloc, PostState>(
         builder: (context, postState) {
@@ -178,54 +162,6 @@ class MainList extends StatelessWidget {
   }
 }
 
-class TopBar extends StatelessWidget {
-  const TopBar({
-    super.key,
-    required this.textTheme,
-  });
-
-  final MyTextTheme textTheme;
-
-  @override
-  Widget build(BuildContext context) {
-    return TopBarWidget(
-      widget: Padding(
-        padding: context.padHorizontal,
-        child: Row(
-          children: [
-            Expanded(
-              flex: 1,
-              child: TextButton(
-                onPressed: () {},
-                child: Text(
-                  "Edit",
-                  style: textTheme.hLBlue,
-                ),
-              ),
-            ),
-            Expanded(
-              flex: 6,
-              child: Text(
-                "Chats",
-                style: textTheme.hLBlack,
-                textAlign: TextAlign.center,
-              ),
-            ),
-            Expanded(
-              flex: 1,
-              child: IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.message_rounded),
-                color: Coloors.lightBlue,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 Padding topNavigator(BuildContext context) {
   return Padding(
     padding: context.padHorizontal,
@@ -243,15 +179,7 @@ Padding topNavigator(BuildContext context) {
               ),
             ),
             TextButton(
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => BlockProvider.value(
-
-                    child: AddPhoneNumber(
-                      title: "addPhoneNumber",
-                    )),
-                ),
-                );
-              },
+              onPressed: () {},
               child: Text(
                 "New Group",
                 //style: textTheme.hLBlue,

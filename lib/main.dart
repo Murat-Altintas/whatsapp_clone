@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:whatsapp_clone/View/ChatList.dart';
-import 'package:whatsapp_clone/View/add_phone_number.dart';
+import 'package:whatsapp_clone/Control/post_bloc.dart';
+import 'package:whatsapp_clone/View/AppRouter.dart';
 import 'package:whatsapp_clone/utils/extensions.dart';
 
 void main() {
@@ -17,13 +17,21 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final AppRouter _appRouter = AppRouter();
+  final PostBloc _postBloc = PostBloc(
+    client: HttpClient(),
+  )..add(PostFetched());
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return BlocProvider<PostBloc>(
+      create: (context) => _postBloc,
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: Scaffold(
-          body: ChatList(),
-        ));
+        initialRoute: "/",
+        onGenerateRoute: _appRouter.onGenerateRoute,
+      ),
+    );
   }
 }
 
