@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class Coloors {
-  static Coloors? _instace;
+  static Coloors? _instance;
 
   static Coloors? get instance {
-    _instace ??= Coloors._init();
-    return _instace;
+    _instance ??= Coloors._init();
+    return _instance;
   }
 
   Coloors._init();

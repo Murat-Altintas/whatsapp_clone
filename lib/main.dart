@@ -28,7 +28,7 @@ class _MyAppState extends State<MyApp> {
       create: (context) => _postBloc,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        initialRoute: "/",
+        initialRoute: "/second",
         onGenerateRoute: _appRouter.onGenerateRoute,
       ),
     );
@@ -37,14 +37,39 @@ class _MyAppState extends State<MyApp> {
 
 class PostBlocObserver extends BlocObserver {
   @override
+  void onCreate(BlocBase bloc) {
+    "Post Bloc Created: $bloc".log();
+
+    super.onCreate(bloc);
+  }
+
+  @override
+  void onEvent(Bloc bloc, Object? event) {
+    "Post Bloc onEvent: $event".log();
+    super.onEvent(bloc, event);
+  }
+
+  @override
   void onTransition(Bloc bloc, Transition transition) {
-    "Post Fetched: $bloc".log();
+    //"Post Fetched: $transition".log();
     super.onTransition(bloc, transition);
   }
 
   @override
-  void onCreate(BlocBase bloc) {
-    "Post Bloc Created".log();
-    super.onCreate(bloc);
+  void onChange(BlocBase bloc, Change change) {
+    //"Post Bloc onChange: $change".log();
+    super.onChange(bloc, change);
+  }
+
+  @override
+  void onClose(BlocBase bloc) {
+    "Post Bloc onClose: $bloc".log();
+    super.onClose(bloc);
+  }
+
+  @override
+  void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
+    "Post Bloc onError: $error, $stackTrace".log();
+    super.onError(bloc, error, stackTrace);
   }
 }

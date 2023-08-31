@@ -1,7 +1,8 @@
 part of 'post_bloc.dart';
 
 enum PostStatus { initial, success, failure }
-enum PostsInList{remove, share}
+
+enum PostsInMainList { remove, share }
 
 class PostState extends Equatable {
   final List<Post> posts;

@@ -22,7 +22,9 @@ class _AddPhoneNumberState extends State<AddPhoneNumber> {
     return Material(
       child: Column(
         children: [
-          TopBarWidget(
+          IBarWidget(
+            alignment: Alignment.bottomCenter,
+            height: 100,
             widget: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -32,7 +34,7 @@ class _AddPhoneNumberState extends State<AddPhoneNumber> {
                   child: Text(
                     "Phone number",
                     style: textTheme.hLBlack,
-                textAlign: TextAlign.center,
+                    textAlign: TextAlign.center,
                   ),
                 ),
                 Expanded(

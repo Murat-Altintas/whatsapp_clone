@@ -24,7 +24,7 @@ class _DropDownListState extends State<DropDownList> {
       value: widget.dropDownValue,
       icon: Icon(Icons.navigate_next),
       isExpanded: true,
-      padding: context.padHorizontal,
+      padding: context.padHorizontal10,
       items: <String>['United States', 'Turkey', 'Italy', 'Algeria'].map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,

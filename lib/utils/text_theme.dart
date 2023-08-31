@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'coloors.dart';
 
 class MyTextTheme {
-  static MyTextTheme? _instace;
+  static MyTextTheme? _instance;
   static MyTextTheme? get instance {
-    _instace ??= MyTextTheme._init();
-    return _instace;
+    _instance ??= MyTextTheme._init();
+    return _instance;
   }
 
   final colorScheme = Coloors.instance!;
@@ -14,6 +14,7 @@ class MyTextTheme {
   MyTextTheme._init();
 
   final TextStyle hLBlack = const TextStyle(
+
     fontSize: 17,
     color: Colors.black,
     fontWeight: FontWeight.w600,

@@ -7,6 +7,7 @@ import 'package:whatsapp_clone/Control/post.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:stream_transform/stream_transform.dart';
+import 'package:whatsapp_clone/utils/extensions.dart';
 import '../exceptions.dart';
 
 part './post_event.dart';
@@ -26,14 +27,14 @@ EventTransformer<T> postDroppable<T>(Duration duration) {
 
 class PostBloc extends Bloc<PostEvent, PostState> {
   final HttpClient _client;
+
   PostBloc({required HttpClient client})
       : _client = client,
         super(const PostState()) {
-    on<PostFetched>(_onPostFetched, transformer: postDroppable(_postDuration));
+    on<PostFetched>(onPostFetched, transformer: postDroppable(_postDuration));
   }
 
-  Future<void> _onPostFetched(PostFetched event, Emitter<PostState> emit) async {
-
+  Future<void> onPostFetched(PostFetched event, Emitter<PostState> emit) async {
     if (state.hasReachedMax) return;
 
     try {
