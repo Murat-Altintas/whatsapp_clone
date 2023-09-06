@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class ITextField extends StatelessWidget {
+class iTextFieldWidget extends StatelessWidget {
   final int flex;
   final TextStyle textStyle;
   final String labelText;
 
-  const ITextField({super.key, required this.flex, required this.labelText, required this.textStyle});
+  const iTextFieldWidget({super.key, required this.flex, required this.labelText, required this.textStyle});
 
   @override
   Widget build(BuildContext context) {

@@ -9,8 +9,9 @@ import '../../utils/coloors.dart';
 import '../../utils/text_theme.dart';
 
 class ListPostItem extends StatefulWidget {
-  const ListPostItem({super.key, required this.post});
+  const ListPostItem({super.key, required this.post, required this.index});
 
+  final int index;
   final Post post;
 
   @override
@@ -18,46 +19,42 @@ class ListPostItem extends StatefulWidget {
 }
 
 class _ListPostItemState extends State<ListPostItem> {
-  bool changePress = false;
-  bool changeColor = true;
-  Color dotColor = Coloors.lightGrey;
   final textTheme = MyTextTheme.instance!;
   final colorScheme = Coloors.instance!;
+  late bool changeColor;
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<PostBloc, PostState>(
       builder: (context, postState) {
+        if (context.read<PostBloc>().selectAndRemove.contains(widget.index)) {
+          changeColor = false;
+        } else {
+          changeColor = true;
+        }
         return Padding(
           padding: context.padHorizontal20,
           child: GestureDetector(
-            onLongPress: () {
-              setState(() {
-                changePress = !changePress;
-              });
-            },
             onTap: () {
-              "changePress: $changePress".log();
-              setState(() {
-                changeColor = !changeColor;
-                if (changeColor && changePress) {
-                  dotColor = Coloors.lightGrey;
-                } else {
-                  dotColor = Coloors.lightGreen;
-                }
-              });
+              if (postState.onLongPress && changeColor) {
+                context.read<PostBloc>().selectAndRemove.add(widget.index);
+                context.read<PostBloc>().selectAndRemove.log();
+              } else {
+                context.read<PostBloc>().selectAndRemove.remove(widget.index);
+              }
+              context.read<PostBloc>().onChangeColor();
             },
-            child: changePress == true
+            child: postState.onLongPress == true
                 ? Column(
                     children: [
                       Row(
                         children: [
-                          changeColor == true
+                          changeColor
                               ? Container(
                                   width: 20,
                                   height: 20,
                                   decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.grey),
+                                    border: Border.all(color: Coloors.lightGrey),
                                     shape: BoxShape.circle,
                                   ),
                                 )
@@ -65,20 +62,26 @@ class _ListPostItemState extends State<ListPostItem> {
                                   width: 20,
                                   height: 20,
                                   decoration: BoxDecoration(
-                                    color: Colors.lightGreen,
+                                    color: Coloors.lightGreen,
                                     shape: BoxShape.circle,
                                   ),
                                 ),
                           Flexible(
                             child: ListTile(
                               leading: CircleAvatar(radius: 25, backgroundImage: NetworkImage(widget.post.photos)),
-                              title: Text("${widget.post.id}"),
-                              subtitle: Text(widget.post.title),
+                              title: Text(
+                                "${widget.post.id}",
+                                style: textTheme.hLBlack,
+                              ),
+                              subtitle: Text(
+                                widget.post.title,
+                                style: textTheme.chatGrey,
+                              ),
                             ),
                           ),
                         ],
                       ),
-                      iDivider(height: 5, indent: 80),
+                      iDividerWidget(height: 5, indent: 80),
                     ],
                   )
                 : Column(
@@ -87,13 +90,14 @@ class _ListPostItemState extends State<ListPostItem> {
                         leading: CircleAvatar(radius: 25, backgroundImage: NetworkImage(widget.post.photos)),
                         title: Text(
                           "${widget.post.id}",
-                          style: TextStyle(
-                            color: postState.onLongPress == true ? Colors.red : Colors.lightGreen,
-                          ),
+                          style: textTheme.hLBlack,
                         ),
-                        subtitle: Text(widget.post.title),
+                        subtitle: Text(
+                          widget.post.title,
+                          style: textTheme.chatGrey,
+                        ),
                       ),
-                      iDivider(height: 5, indent: 80),
+                      iDividerWidget(height: 5, indent: 80),
                     ],
                   ),
           ),

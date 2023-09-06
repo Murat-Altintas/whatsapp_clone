@@ -6,24 +6,26 @@ import '../../Control/post_bloc.dart';
 import '../../utils/coloors.dart';
 import '../../utils/text_theme.dart';
 
-class IBottomNav extends StatefulWidget {
-  const IBottomNav({super.key});
+class iBottomNavWidget extends StatefulWidget {
+  const iBottomNavWidget({super.key});
 
   @override
-  State<IBottomNav> createState() => _IBottomNavState();
+  State<iBottomNavWidget> createState() => _iBottomNavWidgetState();
 }
 
-class _IBottomNavState extends State<IBottomNav> {
+class _iBottomNavWidgetState extends State<iBottomNavWidget> {
   final textTheme = MyTextTheme.instance!;
   final colorScheme = Coloors.instance!;
 
   @override
   Widget build(BuildContext context) {
+    final selectAndRemove = context.read<PostBloc>().selectAndRemove;
+
     return BlocBuilder<PostBloc, PostState>(
       builder: (context, postState) {
         switch (postState.onLongPress) {
           case != true:
-            return IBarWidget(
+            return iTopBarWidgetWidget(
               alignment: Alignment.center,
               height: 90,
               widget: Padding(
@@ -71,7 +73,7 @@ class _IBottomNavState extends State<IBottomNav> {
               ),
             );
           case == true:
-            return IBarWidget(
+            return iTopBarWidgetWidget(
               height: 100,
               alignment: Alignment.topCenter,
               widget: Padding(
@@ -83,7 +85,7 @@ class _IBottomNavState extends State<IBottomNav> {
                       onPressed: postState.onLongPress == true ? () {} : null,
                       child: Text(
                         "Archive",
-                        style: postState.onLongPress == false ? textTheme.hLBlue : textTheme.subGrey,
+                        style: selectAndRemove.isNotEmpty ? textTheme.hLBlue : textTheme.subGrey,
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -91,15 +93,20 @@ class _IBottomNavState extends State<IBottomNav> {
                       onPressed: postState.onLongPress == true ? () {} : null,
                       child: Text(
                         "Read All",
-                        style: postState.onLongPress == false ? textTheme.hLBlue : textTheme.subGrey,
+                        style: selectAndRemove.isNotEmpty ? textTheme.hLBlue : textTheme.subGrey,
                         textAlign: TextAlign.center,
                       ),
                     ),
                     TextButton(
-                      onPressed: postState.onLongPress == true ? () {} : null,
+                      onPressed: postState.onLongPress == true
+                          ? () {
+                              context.read<PostBloc>().removeFromList();
+                              selectAndRemove.clear();
+                            }
+                          : null,
                       child: Text(
                         "Delete",
-                        style: postState.onLongPress == false ? textTheme.hLBlue : textTheme.subGrey,
+                        style: selectAndRemove.isNotEmpty ? textTheme.hLBlue : textTheme.subGrey,
                         textAlign: TextAlign.center,
                       ),
                     ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:whatsapp_clone/View/core/bottom_navigator.dart';
+import 'package:whatsapp_clone/View/core/bottom_navigator_widget.dart';
 import 'package:whatsapp_clone/View/ChatListView/main_list.dart';
 import 'package:whatsapp_clone/View/ChatListView/top_bar.dart';
 import 'package:whatsapp_clone/View/ChatListView/top_navigator.dart';
@@ -60,11 +60,11 @@ class _ChatListState extends State<ChatList> {
           TopNavigator(),
           TextButton(
               onPressed: () {
-                context.read<PostBloc>().changeName();
+                context.read<PostBloc>().onPressChange();
               },
               child: Text("click")),
           MainList(scrollController: _scrollController),
-          IBottomNav(),
+          iBottomNavWidget(),
         ],
       ),
     );

@@ -4,7 +4,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:whatsapp_clone/utils/extensions.dart';
 
 import '../../Control/post_bloc.dart';
-import '../core/IndıcatorWidget.dart';
+import '../core/indicator_widget.dart';
 import '../core/list_post_item.dart';
 
 class MainList extends StatelessWidget {
@@ -30,8 +30,8 @@ class MainList extends StatelessWidget {
               return ListView.builder(
                 itemCount: postState.hasReachedMax ? postState.posts.length : postState.posts.length + 1,
                 controller: scrollController,
-                itemBuilder: (context, index) {
-                  return index >= postState.posts.length
+                itemBuilder: (context, postIndex) {
+                  return postIndex >= postState.posts.length
                       ? IndicatorWidget()
                       : Slidable(
                     endActionPane: ActionPane(
@@ -51,7 +51,7 @@ class MainList extends StatelessWidget {
                           backgroundColor: Colors.blueAccent,
                           icon: Icons.archive,
                           label: "Archive",
-                          onPressed: (BuildContext context) => (context.read<PostBloc>().removeFromList(index)),
+                          onPressed: (BuildContext context) => (context.read<PostBloc>().removeFromList()),
                         ),
                       ],
                     ),
@@ -60,7 +60,7 @@ class MainList extends StatelessWidget {
                       child: Column(
                         children: [
                           ListPostItem(
-                            post: postState.posts[index],
+                            post: postState.posts[postIndex], index: postIndex,
                           )
                         ],
                       ),

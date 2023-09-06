@@ -7,6 +7,7 @@ import 'package:whatsapp_clone/Model/post.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:stream_transform/stream_transform.dart';
+import 'package:whatsapp_clone/utils/extensions.dart';
 import '../utils/exceptions.dart';
 
 part './post_event.dart';
@@ -27,6 +28,8 @@ EventTransformer<T> postDroppable<T>(Duration duration) {
 class PostBloc extends Bloc<PostEvent, PostState> {
   final HttpClient _client;
 
+  List<int> selectAndRemove = [];
+
   PostBloc({required HttpClient client})
       : _client = client,
         super(PostState()) {
@@ -45,19 +48,21 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       final newPosts = await _fetchPosts(state.posts.length);
       newPosts.isEmpty
           ? emit(
-              state.copyWith(hasReachedMax: true),
-            )
+        state.copyWith(hasReachedMax: true),
+      )
           : emit(
-              state.copyWith(
-                status: PostStatus.success,
-                posts: List.of(state.posts)..addAll(newPosts),
-                hasReachedMax: false,
-              ),
-            );
+        state.copyWith(
+          status: PostStatus.success,
+          posts: List.of(state.posts)
+            ..addAll(newPosts),
+          hasReachedMax: false,
+        ),
+      );
     } catch (_) {
       emit(state.copyWith(status: PostStatus.failure));
       PostException(error: _.toString());
     }
+
   }
 
   Future<List<Post>> _fetchPosts([int startIndex = 0]) async {
@@ -74,20 +79,36 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     throw PostException(error: response.body);
   }
 
-  Future<void> removeFromList(int index) async {
-    state.posts.removeAt(index);
+  Future<void> removeFromList() async {
+    //SOMETHING WRONG AT HERE
+    for (var test in selectAndRemove) {
+      state.posts.removeAt(test);
+      "select and remove: $selectAndRemove".log();
+      "current: $state.posts".log();
+    }
+
     final newPosts = state.posts;
     emit(
-      state.copyWith(posts: List.of(state.posts)..addAll(newPosts), status: PostStatus.success),
+      state.copyWith(posts: List.of(state.posts)
+        ..addAll(newPosts), status: PostStatus.success),
     );
   }
 
-  changeName() {
+  onPressChange() {
     //if "pressed" is in "if", ui is not refreshing with first time.
     if (state.hasReachedMax == false) {
-      emit(state.copyWith(onLongPress: true, hasReachedMax: true));
+      emit(state.copyWith(onPress: true, hasReachedMax: true));
     } else {
-      emit(state.copyWith(onLongPress: false, hasReachedMax: false));
+      emit(state.copyWith(onPress: false, hasReachedMax: false));
     }
   }
+
+  onChangeColor() {
+    if (state.hasReachedMax == false) {
+      emit(state.copyWith(hasReachedMax: true));
+    } else {
+      emit(state.copyWith(hasReachedMax: false));
+    }
+  }
+
 }

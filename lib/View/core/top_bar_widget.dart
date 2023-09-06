@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../utils/coloors.dart';
 
-class IBarWidget extends StatelessWidget {
-   const IBarWidget( {super.key, required this.widget, required this.alignment, required this.height, this.color});
+class iTopBarWidgetWidget extends StatelessWidget {
+   const iTopBarWidgetWidget( {super.key, required this.widget, required this.alignment, required this.height, this.color});
   final double height;
   final AlignmentGeometry alignment;
   final Widget widget;

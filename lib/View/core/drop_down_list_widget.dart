@@ -4,16 +4,16 @@ import 'package:whatsapp_clone/utils/extensions.dart';
 import '../../utils/text_theme.dart';
 
 //TODO: this widget can be Stateless?
-class DropDownList extends StatefulWidget {
-  DropDownList({super.key, required this.dropDownValue});
+class iDropDownListWidget extends StatefulWidget {
+  iDropDownListWidget({super.key, required this.dropDownValue});
 
   String dropDownValue;
 
   @override
-  State<DropDownList> createState() => _DropDownListState();
+  State<iDropDownListWidget> createState() => _iDropDownListWidgetState();
 }
 
-class _DropDownListState extends State<DropDownList> {
+class _iDropDownListWidgetState extends State<iDropDownListWidget> {
   final textTheme = MyTextTheme.instance!;
 
   @override

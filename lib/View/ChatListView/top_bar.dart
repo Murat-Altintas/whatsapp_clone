@@ -19,7 +19,7 @@ class TopBarWidget extends StatelessWidget {
       builder: (context, postState) {
         switch (postState.onLongPress) {
           case != true:
-            return IBarWidget(
+            return iTopBarWidgetWidget(
               alignment: Alignment.bottomCenter,
               height: 100,
               widget: Padding(
@@ -30,7 +30,7 @@ class TopBarWidget extends StatelessWidget {
                       flex: 1,
                       child: TextButton(
                           onPressed: () {
-                            context.read<PostBloc>().changeName();
+                            context.read<PostBloc>().onPressChange();
                           },
                           child: Text(
                             "Edit",
@@ -60,7 +60,7 @@ class TopBarWidget extends StatelessWidget {
           case == true:
             return Padding(
               padding: EdgeInsets.only(top: 50),
-              child: IBarWidget(
+              child: iTopBarWidgetWidget(
                 color: Colors.transparent,
                 alignment: Alignment.bottomLeft,
                 height: 100,
@@ -71,7 +71,7 @@ class TopBarWidget extends StatelessWidget {
                     children: [
                       TextButton(
                           onPressed: () {
-                            context.read<PostBloc>().changeName();
+                            context.read<PostBloc>().onPressChange();
                           },
                           child: Text(
                             "Done",

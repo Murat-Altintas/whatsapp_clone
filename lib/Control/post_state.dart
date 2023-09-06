@@ -22,13 +22,13 @@ class PostState extends Equatable {
   PostState copyWith({
     List<Post>? posts,
     bool? hasReachedMax,
-    onLongPress,
+    onPress,
     PostStatus? status,
   }) {
     return PostState(
       posts: posts ?? this.posts,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
-      onLongPress: onLongPress ?? this.onLongPress,
+      onLongPress: onPress ?? this.onLongPress,
       status: status ?? this.status,
     );
   }

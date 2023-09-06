@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:whatsapp_clone/View/core/divider_widget.dart';
-import 'package:whatsapp_clone/View/core/drop_down_list.dart';
+import 'package:whatsapp_clone/View/core/drop_down_list_widget.dart';
 import 'package:whatsapp_clone/View/core/top_bar_widget.dart';
-import 'package:whatsapp_clone/View/core/TextField.dart';
+import 'package:whatsapp_clone/View/core/text_field_widget.dart';
 import 'package:whatsapp_clone/utils/text_theme.dart';
 import '../utils/coloors.dart';
 
@@ -22,7 +22,7 @@ class _AddPhoneNumberState extends State<AddPhoneNumber> {
     return Material(
       child: Column(
         children: [
-          IBarWidget(
+          iTopBarWidgetWidget(
             alignment: Alignment.bottomCenter,
             height: 100,
             widget: Row(
@@ -62,12 +62,12 @@ class _AddPhoneNumberState extends State<AddPhoneNumber> {
                 )),
           ),
 
-          iDivider(height: 20, indent: 0),
+          iDividerWidget(height: 20, indent: 0),
           //TODO: https://restcountries.com/v3.1/independent?
-          SizedBox(width: Size.infinite.width, height: 50, child: DropDownList(dropDownValue: "Turkey")),
+          SizedBox(width: Size.infinite.width, height: 50, child: iDropDownListWidget(dropDownValue: "Turkey")),
           Row(
             children: [
-              ITextField(
+              iTextFieldWidget(
                 flex: 1,
                 labelText: "    +1",
                 textStyle: textTheme.hLBlack.copyWith(
@@ -75,7 +75,7 @@ class _AddPhoneNumberState extends State<AddPhoneNumber> {
                   fontSize: 27,
                 ),
               ),
-              ITextField(
+              iTextFieldWidget(
                 flex: 3,
                 labelText: "phone number",
                 textStyle: textTheme.hLGrey.copyWith(fontWeight: FontWeight.w300, fontSize: 27),
