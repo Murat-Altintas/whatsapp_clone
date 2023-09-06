@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whatsapp_clone/Control/post_bloc.dart';
-import 'package:whatsapp_clone/View/AppRouter.dart';
+import 'package:whatsapp_clone/View/app_router.dart';
 import 'package:whatsapp_clone/utils/extensions.dart';
 
 void main() {
@@ -23,6 +23,8 @@ class _MyAppState extends State<MyApp> {
   )..add(PostFetched());
 
   @override
+
+  //MULTIBLOCProvider!
   Widget build(BuildContext context) {
     return BlocProvider<PostBloc>(
       create: (context) => _postBloc,

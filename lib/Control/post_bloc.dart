@@ -3,12 +3,11 @@ import 'dart:convert';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart' show immutable;
-import 'package:whatsapp_clone/Control/post.dart';
+import 'package:whatsapp_clone/Model/post.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:stream_transform/stream_transform.dart';
-import 'package:whatsapp_clone/utils/extensions.dart';
-import '../exceptions.dart';
+import '../utils/exceptions.dart';
 
 part './post_event.dart';
 
@@ -30,18 +29,16 @@ class PostBloc extends Bloc<PostEvent, PostState> {
 
   PostBloc({required HttpClient client})
       : _client = client,
-        super(const PostState()) {
+        super(PostState()) {
     on<PostFetched>(onPostFetched, transformer: postDroppable(_postDuration));
   }
 
   Future<void> onPostFetched(PostFetched event, Emitter<PostState> emit) async {
     if (state.hasReachedMax) return;
-
     try {
       if (state.status == PostStatus.initial) {
         final posts = await _fetchPosts();
-
-        return emit(
+        emit(
           state.copyWith(status: PostStatus.success, posts: posts, hasReachedMax: false),
         );
       }
@@ -80,9 +77,17 @@ class PostBloc extends Bloc<PostEvent, PostState> {
   Future<void> removeFromList(int index) async {
     state.posts.removeAt(index);
     final newPosts = state.posts;
-
     emit(
       state.copyWith(posts: List.of(state.posts)..addAll(newPosts), status: PostStatus.success),
     );
+  }
+
+  changeName() {
+    //if "pressed" is in "if", ui is not refreshing with first time.
+    if (state.hasReachedMax == false) {
+      emit(state.copyWith(onLongPress: true, hasReachedMax: true));
+    } else {
+      emit(state.copyWith(onLongPress: false, hasReachedMax: false));
+    }
   }
 }

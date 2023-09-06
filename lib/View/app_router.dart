@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:whatsapp_clone/View/ChatList.dart';
+import 'package:whatsapp_clone/View/ChatListView/chat_list_main.dart';
 import 'package:whatsapp_clone/View/add_phone_number.dart';
 import 'package:whatsapp_clone/View/onLongPress.dart';
 
