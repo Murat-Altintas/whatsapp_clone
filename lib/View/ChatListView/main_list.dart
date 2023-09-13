@@ -16,6 +16,7 @@ class MainList extends StatelessWidget {
     return Expanded(
       child: BlocBuilder<PostBloc, PostState>(
         builder: (context, postState) {
+          
           switch (postState.status) {
             case PostStatus.failure:
               return Center(

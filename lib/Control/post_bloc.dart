@@ -74,7 +74,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       ),
     );
     if (response.statusCode == 200) {
-      return (json.decode(response.body) as List<dynamic>).map((dynamic post) => Post.fromJson(JsonMap.from(post))).cast<Post>().toList();
+      return (json.decode(response.body) as List<dynamic>).map((dynamic post) => Post.fromJson(JsonMap.from(post))).toList();
     }
     throw PostException(error: response.body);
   }
