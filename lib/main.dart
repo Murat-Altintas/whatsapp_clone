@@ -5,9 +5,13 @@ import 'package:whatsapp_clone/Control/post_bloc.dart';
 import 'package:whatsapp_clone/View/app_router.dart';
 import 'package:whatsapp_clone/utils/extensions.dart';
 
+import 'firebase_options.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
   Bloc.observer = PostBlocObserver();
 }
@@ -33,7 +37,7 @@ class _MyAppState extends State<MyApp> {
       create: (context) => _postBloc,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        initialRoute: "/second",
+        initialRoute: "/",
         onGenerateRoute: _appRouter.onGenerateRoute,
       ),
     );
