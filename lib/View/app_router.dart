@@ -5,6 +5,7 @@ import 'package:whatsapp_clone/View/onLongPress.dart';
 
 class AppRouter {
   Route? onGenerateRoute(RouteSettings settings) {
+
     switch (settings.name) {
       case "/":
         return MaterialPageRoute(
@@ -21,5 +22,7 @@ class AppRouter {
       default:
         return null;
     }
+
+   // return ;
   }
 }

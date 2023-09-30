@@ -1,22 +1,19 @@
-import 'package:equatable/equatable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-typedef JsonMap = Map<String, dynamic>;
+part 'post.freezed.dart';
 
-class Post extends Equatable {
-  final int id;
-  final String title, photos;
+part 'post.g.dart';
 
-  const Post({required this.id, required this.title, required this.photos});
+@Freezed()
+class Post with _$Post {
+  @JsonSerializable(
+    explicitToJson: true,
+  )
+  const factory Post({
+    required int id,
+    required String title,
+    @JsonKey(name: 'url') required String photos,
+  }) = _Post;
 
-  factory Post.fromJson(JsonMap json) {
-    return Post(
-      id: json['id'],
-      title: json['title'],
-      //body: json['body'],
-      photos: json['thumbnailUrl'],
-    );
-  }
-
-  @override
-  List<Object?> get props => [id, title, photos];
+  factory Post.fromJson(Map<String, Object?> json) => _$PostFromJson(json);
 }

@@ -33,3 +33,10 @@ class PostState extends Equatable {
     );
   }
 }
+
+class PostLoading extends PostState {}
+class PostSuccess extends PostState {
+  final List<Post> post;
+  const PostSuccess({required this.post});
+}
+class PostError extends PostState {}

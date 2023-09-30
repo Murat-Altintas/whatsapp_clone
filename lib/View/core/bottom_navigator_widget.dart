@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whatsapp_clone/View/core/top_bar_widget.dart';
-import 'package:whatsapp_clone/utils/extensions.dart';
 import '../../Control/post_bloc.dart';
 import '../../utils/coloors.dart';
 import '../../utils/text_theme.dart';

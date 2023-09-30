@@ -12,6 +12,7 @@ class iTopBarWidgetWidget extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Container(
+
         width: Size.infinite.width,
         height: height,
         color: color ?? Coloors.lightWhite,

@@ -26,13 +26,11 @@ EventTransformer<T> postDroppable<T>(Duration duration) {
 }
 
 class PostBloc extends Bloc<PostEvent, PostState> {
-  final HttpClient _client;
+  final HttpClient client = HttpClient();
 
   List<int> selectAndRemove = [];
 
-  PostBloc({required HttpClient client})
-      : _client = client,
-        super(PostState()) {
+  PostBloc() : super(PostState()) {
     on<PostFetched>(onPostFetched, transformer: postDroppable(_postDuration));
   }
 
@@ -48,25 +46,24 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       final newPosts = await _fetchPosts(state.posts.length);
       newPosts.isEmpty
           ? emit(
-        state.copyWith(hasReachedMax: true),
-      )
+              state.copyWith(hasReachedMax: true),
+            )
           : emit(
-        state.copyWith(
-          status: PostStatus.success,
-          posts: List.of(state.posts)
-            ..addAll(newPosts),
-          hasReachedMax: false,
-        ),
-      );
+              state.copyWith(
+                status: PostStatus.success,
+                posts: List.of(state.posts)..addAll(newPosts),
+                hasReachedMax: false,
+              ),
+            );
     } catch (_) {
       emit(state.copyWith(status: PostStatus.failure));
+      _.log();
       PostException(error: _.toString());
     }
-
   }
 
   Future<List<Post>> _fetchPosts([int startIndex = 0]) async {
-    final response = await _client.get(
+    final response = await client.get(
       Uri.https(
         "jsonplaceholder.typicode.com",
         "/photos",
@@ -74,7 +71,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       ),
     );
     if (response.statusCode == 200) {
-      return (json.decode(response.body) as List<dynamic>).map((dynamic post) => Post.fromJson(JsonMap.from(post))).toList();
+      return (json.decode(response.body) as List<dynamic>).map((dynamic post) => Post.fromJson(post)).toList();
     }
     throw PostException(error: response.body);
   }
@@ -89,8 +86,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
 
     final newPosts = state.posts;
     emit(
-      state.copyWith(posts: List.of(state.posts)
-        ..addAll(newPosts), status: PostStatus.success),
+      state.copyWith(posts: List.of(state.posts)..addAll(newPosts), status: PostStatus.success),
     );
   }
 
@@ -110,5 +106,4 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       emit(state.copyWith(hasReachedMax: false));
     }
   }
-
 }

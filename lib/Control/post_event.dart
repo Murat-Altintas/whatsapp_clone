@@ -12,3 +12,6 @@ abstract class PostEvent extends Equatable {
 class PostFetched extends PostEvent {
   const PostFetched();
 }
+
+class GetPost extends PostEvent {}
+

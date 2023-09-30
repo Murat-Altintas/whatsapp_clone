@@ -12,13 +12,18 @@ class iTextFieldWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Flexible(
       flex: flex,
-      child: TextFormField(
-        controller: textEditingController,
-        keyboardType: TextInputType.number,
-        decoration: InputDecoration(
-          labelStyle: textStyle,
-          labelText: labelText,
-        ),
+      child: Column(
+        children: [
+          TextFormField(
+            controller: textEditingController,
+            keyboardType: TextInputType.number,
+
+            decoration: InputDecoration(
+              labelStyle: textStyle,
+              labelText: labelText,
+            ),
+          ),
+        ],
       ),
     );
   }

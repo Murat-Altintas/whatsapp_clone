@@ -2,6 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:whatsapp_clone/Control/post_bloc.dart';
+import 'package:whatsapp_clone/View/PhoneAuth/view-model/phone_auth_bloc.dart';
+import 'package:whatsapp_clone/View/PhoneAuth/view/phone_auth.dart';
 import 'package:whatsapp_clone/View/app_router.dart';
 import 'package:whatsapp_clone/utils/extensions.dart';
 
@@ -25,16 +27,21 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final AppRouter _appRouter = AppRouter();
-  final PostBloc _postBloc = PostBloc(
-    client: HttpClient(),
-  )..add(PostFetched());
+  final PostBloc _postBloc = PostBloc()..add(PostFetched());
+  final authBloc = PhoneAuthBloc(phoneAuthRepository: PhoneAuthRepository());
 
   @override
-
   //MULTIBLOCProvider!
   Widget build(BuildContext context) {
-    return BlocProvider<PostBloc>(
-      create: (context) => _postBloc,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => _postBloc,
+        ),
+        BlocProvider(
+          create: (context) => authBloc,
+        ),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         initialRoute: "/",
